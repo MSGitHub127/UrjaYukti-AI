@@ -188,7 +188,9 @@ function StatsPanel({ zone, onClose }: { zone: HeatmapZone; onClose: () => void 
 
   return (
     <div className="hm-slide-inR" style={{
-      width: 268, flexShrink: 0,
+      width: 268,
+      height: "100%", // <--- ADD THIS: Ensures the card fills the available vertical space
+      flexShrink: 0,
       background: T.card, border: `1px solid ${T.border}`,
       borderRadius: 14, display: "flex", flexDirection: "column",
       overflow: "hidden",
@@ -196,7 +198,7 @@ function StatsPanel({ zone, onClose }: { zone: HeatmapZone; onClose: () => void 
     }}>
       {/* Header */}
       <div style={{
-        padding: "14px 16px 12px",
+        padding: "14px 16px 40px",
         background: `linear-gradient(135deg,${zone.rCol}18,transparent)`,
         borderBottom: `1px solid ${T.border}`,
       }}>
@@ -613,14 +615,25 @@ export default function HeatmapView() {
             ))}
           </div>
 
-          {/* Ticker */}
-          <div style={{ overflow: "hidden", width: 300, flexShrink: 0 }}>
-            <div style={{ display: "flex", gap: 32, animation: "hmTickerMove 14s linear infinite", width: "max-content" }}>
+          {/* Ticker - Updated to flex: 1 to span the full empty space of the footer */}
+          <div style={{
+            overflow: "hidden",
+            flex: 1,
+            marginLeft: "40px", // Provides breathing room from the legend
+            maskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)",
+            WebkitMaskImage: "linear-gradient(to right, transparent, black 15%, black 85%, transparent)"
+          }}>
+            <div style={{
+              display: "flex",
+              gap: 48,
+              animation: "hmTickerMove 20s linear infinite",
+              width: "max-content"
+            }}>
               {[...Array(2)].flatMap(() =>
                 ["Z7 Load 92% CRITICAL", "VPP 340kWh shifted", "Z3 Peak risk HIGH", "Site #1 Score 94", "0 violations", "MAPE 9.4%"]
               ).map((t, i) => (
-                <span key={i} style={{ color: T.dim, fontSize: 9, fontFamily: "'JetBrains Mono',monospace", whiteSpace: "nowrap" }}>
-                  <span style={{ color: T.primary, marginRight: 6 }}>◆</span>{t}
+                <span key={i} style={{ color: T.dim, fontSize: 10, fontFamily: "'JetBrains Mono',monospace", whiteSpace: "nowrap" }}>
+                  <span style={{ color: T.primary, marginRight: 8 }}>◆</span>{t}
                 </span>
               ))}
             </div>

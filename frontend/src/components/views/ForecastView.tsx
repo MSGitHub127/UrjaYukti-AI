@@ -39,20 +39,25 @@ export default function ForecastView() {
 
       {/* Zone Info Card */}
       <GlassCard glow glowColor={col} style={{ padding: "20px 24px" }}>
-        <div className="grid grid-cols-1fr 1fr 1fr 1fr gap-5 items-center">
+        {/* Changed to grid-cols-5 to align all 5 elements horizontally */}
+        <div className="grid grid-cols-2 lg:grid-cols-5 gap-6 items-center">
+
+          {/* 1. Zone Name Section */}
           <div>
-            <div className="text-sub text-[9px] font-mono mb-1">ZONE</div>
-            <div className="text-text text-lg font-extrabold font-display">{zone.name}</div>
+            <div className="text-sub text-[9px] font-mono mb-1 uppercase tracking-wider">Zone</div>
+            <div className="text-text text-xl font-extrabold font-display leading-tight">{zone.name}</div>
             <Tag text={zone.risk} color={col} dot />
           </div>
+
+          {/* 2-5. Metrics Sections */}
           {[
             { label: "Current Load", value: `${zone.load}%`, color: col },
             { label: "Grid Headroom", value: `${zone.headroom}%`, color: zone.headroom < 20 ? COLORS.danger : COLORS.teal },
             { label: "EV Density Score", value: `${zone.evDensity}/100`, color: COLORS.purple },
             { label: "Growth Trajectory", value: zone.growth, color: COLORS.success },
           ].map((s) => (
-            <div key={s.label}>
-              <div className="text-sub text-[9px] mb-1">{s.label}</div>
+            <div key={s.label} className="border-l border-white/5 pl-4 lg:pl-6">
+              <div className="text-sub text-[9px] mb-1 uppercase tracking-tight">{s.label}</div>
               <div className="font-mono text-2xl font-bold" style={{ color: s.color }}>{s.value}</div>
             </div>
           ))}

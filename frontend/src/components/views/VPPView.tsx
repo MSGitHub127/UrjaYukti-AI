@@ -30,20 +30,31 @@ export default function VPPView() {
 
   return (
     <div className="flex flex-col gap-5">
-      {/* LP Formulation Card */}
-      <GlassCard style={{ padding: "16px 22px" }}>
-        <div className="flex items-center gap-5 flex-wrap">
-          <div>
-            <div className="text-primary text-[9px] font-mono font-bold mb-1">LP FORMULATION · ACTIVE</div>
-            <div className="text-text text-xs">
-              min <span className="text-primary">Σ PLI(t)</span> &nbsp;|&nbsp; s.t. Σ x<sub>ij</sub>·kWh ≤ C<sub>transformer</sub>(t) ∀t &nbsp;|&nbsp; shifted ≤ <span className="text-warn">70%</span> off-peak capacity
+      <GlassCard style={{ padding: "18px 24px" }}>
+        <div className="flex justify-between items-center gap-6">
+
+          {/* Left Side: Stacking Label and Formula vertically */}
+          <div className="flex flex-col gap-2 flex-1">
+            <div className="text-primary text-[9px] font-mono font-bold tracking-[0.15em] uppercase opacity-90">
+              LP Formulation · Active
+            </div>
+
+            <div className="text-text text-[13px] font-mono leading-relaxed tracking-tight">
+              <span className="font-bold">min</span> <span className="text-primary">Σ PLI(t)</span>
+              <span className="mx-3 text-white/10">|</span>
+              <span className="text-sub">s.t.</span> Σ x<sub>ij</sub>·kWh ≤ C<sub>transformer</sub>(t) ∀t
+              <span className="mx-3 text-white/10">|</span>
+              shifted ≤ <span className="text-warn font-bold">70%</span> off-peak capacity
             </div>
           </div>
-          <div className="ml-auto flex gap-2.5">
+
+          {/* Right Side: Badges locked to the right */}
+          <div className="flex gap-2.5 flex-shrink-0">
             <Tag text="OR-Tools LP" color={COLORS.primary} />
             <Tag text="N-1 Constraint Active" color={COLORS.danger} />
             <Tag text="0 Violations" color={COLORS.success} />
           </div>
+
         </div>
       </GlassCard>
 

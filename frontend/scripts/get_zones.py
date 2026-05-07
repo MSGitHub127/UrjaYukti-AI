@@ -9,8 +9,8 @@ Output:
     public/urjayukti_zones_raw.geojson
 """
 
-import osmnx as ox
-import geopandas as gpd
+import osmnx as ox  # type: ignore[import-untyped]
+import geopandas as gpd  # type: ignore[import-untyped]
 import json
 from pathlib import Path
 

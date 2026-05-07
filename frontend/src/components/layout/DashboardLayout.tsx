@@ -249,15 +249,9 @@ function LiveTicker() {
             </span>
           ))}
         </div>
-      </div>
-      <div className="px-4 text-sub text-[9px] font-mono flex-shrink-0 border-l border-border">
-        {mounted
-          ? new Date().toLocaleTimeString("en-IN", {
-              hour: "2-digit",
-              minute: "2-digit",
-              second: "2-digit",
-            })
-          : ""}
+        {/* Subtle Fade Effect */}
+        <div className="absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-panel to-transparent pointer-events-none" />
+        <div className="absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-panel to-transparent pointer-events-none" />
       </div>
     </div>
   );
@@ -273,13 +267,13 @@ interface SidebarProps {
 
 function Sidebar({ active, setActive, alertCount }: SidebarProps) {
   const navItems: NavItem[] = [
-    { id: "overview", icon: "⬡", label: "Overview", badge: null },
-    { id: "heatmap", icon: "⬢", label: "Demand Heatmap", badge: null },
-    { id: "forecast", icon: "↗", label: "Demand Forecast", badge: null },
+    { id: "overview", icon: "📊", label: "Overview", badge: null },
+    { id: "heatmap", icon: "🗺️", label: "Demand Heatmap", badge: null },
+    { id: "forecast", icon: "📈", label: "Demand Forecast", badge: null },
     { id: "vpp", icon: "⚡", label: "VPP Optimizer", badge: null },
-    { id: "sites", icon: "◎", label: "Site Planner", badge: null },
-    { id: "alerts", icon: "⚬", label: "Alert Center", badge: alertCount },
-    { id: "agents", icon: "✦", label: "Agent Console", badge: null },
+    { id: "sites", icon: "🏫", label: "Site Planner", badge: null },
+    { id: "alerts", icon: "📢", label: "Alert Center", badge: alertCount },
+    { id: "agents", icon: "🤖", label: "Agent Console", badge: null },
   ];
 
   const statusItems: StatusItem[] = [
@@ -292,13 +286,13 @@ function Sidebar({ active, setActive, alertCount }: SidebarProps) {
   return (
     <div className="w-[220px] bg-panel border-r border-border flex flex-col flex-shrink-0 h-full overflow-y-auto">
       {/* Logo */}
-      <div className="px-4 py-4 border-b border-border">
-        <Lockup S={26} scale={0.5} live={false} />
+      <div className="px-4 py-4 border-b border-border flex justify-center">
+        <Lockup S={40} scale={0.7} live={false} />
       </div>
 
       {/* Navigation */}
       <div className="px-2 py-3 flex-1">
-        <div className="text-dim text-[9px] font-mono font-bold tracking-[0.12em] px-1.5 mb-2">
+        <div className="text-white/40 text-[11px] font-black font-mono tracking-[0.3em] px-3 mb-4 mt-2 uppercase border-b border-white/5 pb-2">
           COMMAND CENTER
         </div>
         {navItems.map((item) => (
@@ -360,7 +354,7 @@ function TopBar({ view, viewTitle }: TopBarProps) {
   return (
     <div className="bg-panel border-b border-border px-6 flex items-center justify-between h-[52px] flex-shrink-0 z-50">
       <div className="flex items-center gap-4">
-        <Lockup S={22} scale={0.44} live={false} />
+        <Lockup S={28} scale={0.55} live={false} />
         <div className="w-px h-5 bg-border" />
         <div className="text-sub text-[11px]">{viewTitle}</div>
       </div>
@@ -377,12 +371,12 @@ function TopBar({ view, viewTitle }: TopBarProps) {
         <div className="font-mono text-[11px] text-sub">
           {mounted
             ? time.toLocaleString("en-IN", {
-                hour: "2-digit",
-                minute: "2-digit",
-                second: "2-digit",
-                day: "2-digit",
-                month: "short",
-              })
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              day: "2-digit",
+              month: "short",
+            })
             : ""}
         </div>
         <div className="w-2 h-2 rounded-full bg-success shadow-[0_0_8px_#10B981] pulse-dot" />

@@ -104,45 +104,55 @@ export default function SitesView() {
               <div
                 key={site.name}
                 onClick={() => setSelected(selected === site.rank ? null : site.rank)}
-                className="p-3 rounded-lg cursor-pointer transition-all"
+                className="p-4 rounded-xl cursor-pointer transition-all border border-transparent hover:border-white/10 mb-2"
                 style={{
-                  background: selected === site.rank ? `${COLORS.primary}0A` : "",
+                  background: selected === site.rank ? `${COLORS.primary}12` : "rgba(255,255,255,0.02)",
                   border: selected === site.rank ? `1px solid ${COLORS.primary}44` : "",
-                  color: selected === site.rank ? COLORS.primary : "",
                 }}
               >
-                <div className="grid grid-cols-[36px_1fr_80px_80px_80px_80px_80px gap-3 items-center">
-                  <div className="font-mono text-lg font-bold text-[#F0F6FC]">
+                {/* FIXED GRID: 36px (Rank) | 1fr (Name) | 5 columns of 80px each */}
+                <div className="grid grid-cols-[36px_1fr_repeat(5,80px)] gap-4 items-center">
+
+                  {/* 1. Rank */}
+                  <div className="font-mono text-xl font-black text-white/20">
                     #{idx + 1}
                   </div>
-                  <div>
-                    <div className="text-text text-sm font-semibold mb-0.5">{site.name}</div>
-                    <div className="flex gap-1.5">
+
+                  {/* 2. Site Identity */}
+                  <div className="min-w-0">
+                    <div className="text-text text-sm font-bold truncate mb-1">{site.name}</div>
+                    <div className="flex gap-2">
                       <Tag text={site.type} color={COLORS.teal} />
-                      <Tag text={ZONES.find((z) => z.id === site.zone)?.risk || ""} color={COLORS.teal} />
+                      <Tag text={ZONES.find((z) => z.id === site.zone)?.risk || "LOW"}
+                        color={ZONES.find((z) => z.id === site.zone)?.risk === "CRITICAL" ? COLORS.danger : COLORS.teal}
+                      />
                     </div>
                   </div>
+
+                  {/* 3. Metrics (MCDA, Demand, Headroom, Access, Growth) */}
                   {[
-                    { label: "MCDA Score", val: `${site.computedScore}`, color: COLORS.primary },
+                    { label: "MCDA Score", val: site.computedScore, color: COLORS.primary },
                     { label: "Demand", val: `${site.demand}%`, color: COLORS.danger },
                     { label: "Headroom", val: `${site.headroom}%`, color: site.headroom < 20 ? COLORS.danger : COLORS.teal },
                     { label: "Access", val: `${site.access}%`, color: "#4DB8FF" },
                     { label: "Growth", val: `${site.growth}%`, color: COLORS.warn },
                   ].map((s) => (
                     <div key={s.label} className="text-center">
-                      <div className="font-mono text-sm font-bold" style={{ color: s.color }}>
+                      <div className="font-mono text-sm font-black" style={{ color: s.color }}>
                         {s.val}
                       </div>
-                      <div className="text-dim text-[8px]">{s.label}</div>
+                      <div className="text-dim text-[8px] uppercase tracking-tighter font-bold">{s.label}</div>
                     </div>
                   ))}
                 </div>
+
+                {/* Rationale Section (appears below the grid when selected) */}
                 {selected === site.rank && (
-                  <div className="mt-3 pt-3 border-t border-border">
-                    <div className="text-primary text-[9px] font-mono font-bold mb-1">
+                  <div className="mt-4 pt-4 border-t border-white/5 hm-fade-up">
+                    <div className="text-primary text-[9px] font-mono font-bold mb-1 uppercase tracking-widest">
                       ✦ Mistral 7B · Site Rationale
                     </div>
-                    <div className="text-sub text-xs leading-relaxed italic">
+                    <div className="text-sub text-xs leading-relaxed italic opacity-80">
                       "{site.reason} — based on current MCDA weights and grid headroom analysis."
                     </div>
                   </div>

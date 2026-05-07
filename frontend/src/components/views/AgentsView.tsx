@@ -1,240 +1,192 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { GlassCard, SectionLabel, Tag, Mono } from "@/components/ui/card";
+import { GlassCard, SectionLabel, Tag } from "@/components/ui/card";
 import { COLORS } from "@/lib/mapLayers";
 
+/* ─── Sub-Component: AgentRow (Refactored from Claude's logic) ─── */
+interface AgentRowProps {
+  label: string;
+  icon: string;
+  tech: string;
+  desc: string;
+  status: "pending" | "running" | "completed";
+}
+
+function AgentRow({ label, icon, tech, desc, status }: AgentRowProps) {
+  const isActive = status === "running";
+  const isDone = status === "completed";
+  const col = isActive ? COLORS.warn : isDone ? COLORS.success : COLORS.dim;
+
+  return (
+    <div
+      className={`p-4 rounded-xl border transition-all duration-500 ${isActive ? 'scale-[1.02] shadow-[0_0_20px_rgba(245,158,11,0.1)]' : ''}`}
+      style={{
+        background: isActive ? `${COLORS.warn}0A` : isDone ? `${COLORS.success}05` : "rgba(255,255,255,0.02)",
+        borderColor: isActive ? `${COLORS.warn}66` : isDone ? `${COLORS.success}33` : "rgba(255,255,255,0.05)",
+      }}
+    >
+      <div className="grid grid-cols-[48px_1fr_auto_50px] gap-4 items-center">
+        {/* Icon / Status Circle */}
+        <div className="relative w-10 h-10 rounded-full flex items-center justify-center text-lg bg-card2 border-2"
+          style={{ borderColor: isActive || isDone ? col : "rgba(255,255,255,0.1)" }}>
+          {isActive && <div className="absolute inset-0 rounded-full border-2 border-t-transparent animate-spin" style={{ borderColor: col }} />}
+          {isDone ? <span style={{ color: col }}>✓</span> : <span>{icon}</span>}
+        </div>
+
+        {/* Info */}
+        <div className="min-w-0">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-text font-bold text-sm tracking-tight">{label}</span>
+            <Tag text={tech} color={col} />
+          </div>
+          <div className="text-[10px] font-mono text-sub truncate">
+            {isActive ? desc : isDone ? "Execution successful — context updated" : "Waiting for upstream agent..."}
+          </div>
+        </div>
+
+        {/* Status Badge */}
+        <Tag
+          text={isActive ? "RUNNING" : isDone ? "DONE" : "QUEUED"}
+          color={col}
+        />
+
+        {/* Time */}
+        <div className="text-right font-mono text-[10px] text-dim">
+          {isDone ? "~1.2s" : isActive ? "..." : "--"}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─── Main View Component ─── */
 export default function AgentsView() {
   const [running, setRunning] = useState(false);
-  const [currentStep, setCurrentStep] = useState(0);
-  const [completed, setCompleted] = useState(false);
+  const [step, setStep] = useState(-1);
+  const [done, setDone] = useState(false);
   const [typedText, setTypedText] = useState("");
-  const [showCursor, setShowCursor] = useState(true);
 
-  const rationaleRef = useRef<string>(
-    "Based on current MCDA weights and grid headroom analysis, Zone 7 Whitefield requires immediate VPP intervention. The demand forecast indicates a 385 MW peak at 20:00 under unmanaged EV charging, exceeding the N-1 limit by 85 MW. Recommended action: Apply 70% compliance rate schedule to shift 340 kWh to off-peak hours (00:00-04:00), achieving 18% PLI reduction with 0 constraint violations. Confidence: 84%."
-  );
+  const rationale = "Zone 7 (Whitefield) analysis complete. Shifting 340 kWh of EV charging load from the 18:00–22:00 peak window to the 00:00–04:00 off-peak window is projected to reduce transformer T-07 peak stress by 18.3%, with 84% confidence. This recommendation is fully compliant with BESCOM N-1 contingency safety standards. Zero constraint violations detected.";
 
-  const agentSteps = [
-    { id: "forecast", label: "Demand Forecast Agent", status: "pending", icon: "📊" },
-    { id: "vpp", label: "VPP Schedule Agent", status: "pending", icon: "⚡" },
-    { id: "planning", label: "Site Planning Agent", status: "pending", icon: "📍" },
-    { id: "mistral", label: "Mistral 7B", status: "pending", icon: "🤖" },
+  const steps = [
+    { id: "f", label: "Demand Forecast Agent", tech: "TFT • PyTorch", icon: "📊", desc: "Fetching 72-hr zone predictions..." },
+    { id: "v", label: "VPP Schedule Agent", tech: "OR-Tools LP", icon: "⚡", desc: "Solving N-1 load constraints..." },
+    { id: "p", label: "Site Planning Agent", tech: "MCDA Engine", icon: "◎", desc: "Scoring candidate locations..." },
+    { id: "m", label: "Mistral 7B (VPC)", tech: "RAG + ChromaDB", icon: "✦", desc: "Synthesizing rationale..." },
   ];
 
-  const [steps, setSteps] = useState(agentSteps);
+  const handleRun = () => {
+    if (running) return;
+    setRunning(true);
+    setStep(0);
+    setDone(false);
+    setTypedText("");
 
-  // Typing animation effect
-  useEffect(() => {
-    if (currentStep === 3 && !completed) {
-      let index = 0;
-      const interval = setInterval(() => {
-        if (index < rationaleRef.current.length) {
-          setTypedText((prev) => prev + rationaleRef.current[index]);
-          index++;
-        } else {
-          clearInterval(interval);
-          setCompleted(true);
-          setRunning(false);
+    // Step progression logic
+    steps.forEach((_, i) => {
+      setTimeout(() => setStep(i), i * 1600);
+    });
+
+    // Completion and typewriter start
+    setTimeout(() => {
+      setDone(true);
+      setRunning(false);
+      let i = 0;
+      const tick = setInterval(() => {
+        setTypedText(rationale.slice(0, i));
+        i += 3;
+        if (i > rationale.length) {
+          setTypedText(rationale);
+          clearInterval(tick);
         }
       }, 15);
-      return () => clearInterval(interval);
-    }
-  }, [currentStep, completed]);
-
-  // Cursor blink effect
-  useEffect(() => {
-    const cursorInterval = setInterval(() => {
-      setShowCursor((prev) => !prev);
-    }, 500);
-    return () => clearInterval(cursorInterval);
-  }, []);
-
-  const handleRun = () => {
-    if (running || completed) return;
-    setRunning(true);
-    setCurrentStep(0);
-    setTypedText("");
-    setCompleted(false);
-
-    // Simulate step-by-step execution
-    const delays = [800, 1200, 1000, 0];
-    let stepIndex = 0;
-
-    const executeStep = () => {
-      if (stepIndex < steps.length) {
-        setSteps((prev) =>
-          prev.map((s, i) =>
-            i === stepIndex ? { ...s, status: "running" } : i < stepIndex ? { ...s, status: "completed" } : s
-          )
-        );
-        setCurrentStep(stepIndex);
-
-        setTimeout(() => {
-          setSteps((prev) =>
-            prev.map((s, i) =>
-              i === stepIndex ? { ...s, status: "completed" } : s
-            )
-          );
-          stepIndex++;
-          if (stepIndex < steps.length) {
-            executeStep();
-          }
-        }, delays[stepIndex]);
-      }
-    };
-
-    executeStep();
-  };
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case "completed": return COLORS.success;
-      case "running": return COLORS.warn;
-      default: return COLORS.dim;
-    }
-  };
-
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case "completed": return "✓";
-      case "running": return "⟳";
-      default: return "○";
-    }
+    }, steps.length * 1600);
   };
 
   return (
-    <div className="flex flex-col gap-5">
-      {/* Header Card */}
-      <GlassCard style={{ padding: "16px 22px" }}>
-        <div className="flex items-center gap-5 flex-wrap">
+    <div className="flex flex-col gap-6">
+
+      {/* 1. Header with Run Button */}
+      <GlassCard className="p-6">
+        <div className="flex justify-between items-center">
           <div>
-            <div className="text-primary text-[9px] font-mono font-bold mb-1">AI AGENT PIPELINE · LANGGRAPH</div>
-            <div className="text-text text-xs">
-              Multi-agent orchestration for demand forecasting, VPP scheduling, and site planning with Mistral 7B reasoning
+            <div className="text-primary text-[10px] font-mono font-bold uppercase tracking-[0.2em] mb-1">
+              LangGraph Agentic Pipeline · Cyclic Reasoning
             </div>
+            <h1 className="text-3xl font-black text-white tracking-tight font-display">Multi-Agent Reasoning Console</h1>
           </div>
-          <div className="ml-auto flex gap-2.5">
-            <Tag text="LangGraph v0.2" color={COLORS.primary} />
-            <Tag text="Mistral 7B" color={COLORS.purple} />
-            <Tag text="Fallback Chain" color={COLORS.teal} />
-          </div>
+          <button
+            onClick={handleRun}
+            disabled={running}
+            className={`px-8 py-3 rounded-xl border font-bold transition-all ${running ? 'opacity-50' : 'hover:scale-105 active:scale-95'}`}
+            style={{
+              background: running ? 'rgba(255,255,255,0.05)' : `${COLORS.primary}18`,
+              borderColor: running ? "rgba(255,255,255,0.1)" : `${COLORS.primary}55`,
+              color: running ? COLORS.sub : COLORS.primary
+            }}
+          >
+            {running ? "Pipeline Running..." : "▶ Run Agent Pipeline"}
+          </button>
         </div>
       </GlassCard>
 
-      {/* Main Content */}
-      <div className="grid grid-cols-[1fr_1.2fr] gap-5">
-        {/* Left Column - Agent Execution Graph */}
-        <div className="flex flex-col gap-3.5">
-          {/* Agent Steps */}
-          <GlassCard style={{ padding: "20px" }}>
-            <SectionLabel>Agent Execution Graph</SectionLabel>
-            <div className="flex flex-col gap-3">
-              {steps.map((step, idx) => (
-                <div
-                  key={step.id}
-                  className="flex items-center gap-3 p-3 rounded-lg transition-all"
-                  style={{
-                    background: step.status === "running" ? `${COLORS.warn}0A` : step.status === "completed" ? `${COLORS.success}0A` : "",
-                    border: `1px solid ${step.status === "running" ? COLORS.warn + "33" : step.status === "completed" ? COLORS.success + "33" : COLORS.border}`,
-                  }}
-                >
-                  <div
-                    className="w-8 h-8 rounded-full flex items-center justify-center text-sm"
-                    style={{
-                      background: step.status === "running" ? COLORS.warn + "18" : step.status === "completed" ? COLORS.success + "18" : COLORS.card2,
-                      color: getStatusColor(step.status),
-                    }}
-                  >
-                    {step.status === "running" ? (
-                      <div className="spin w-4 h-4 rounded-full border-2 border-t-2" style={{ borderColor: "#F59E0B33", borderTopColor: "#F59E0B" }} />
-                    ) : (
-                      getStatusIcon(step.status)
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-text text-xs font-semibold">{step.label}</div>
-                    <div className="text-dim text-[9px]">
-                      {step.status === "running" ? "Processing..." : step.status === "completed" ? "Completed" : "Pending"}
-                    </div>
-                  </div>
-                  <span className="text-lg">{step.icon}</span>
-                </div>
-              ))}
-            </div>
-          </GlassCard>
+      <div className="grid grid-cols-1 lg:grid-cols-[1.1fr_1fr] gap-6">
 
-          {/* Configuration Cards */}
-          <div className="grid grid-cols-3 gap-3">
-            {[
-              { title: "LangGraph", desc: "Orchestrates multi-agent workflows with state management", color: COLORS.primary },
-              { title: "Fallback Chain", desc: "Graceful degradation when primary model fails", color: COLORS.teal },
-              { title: "Compliance", desc: "Ensures all recommendations meet N-1 constraints", color: COLORS.warn },
-            ].map((cfg) => (
-              <GlassCard key={cfg.title} style={{ padding: "14px" }}>
-                <div className="text-sub text-[9px] font-mono mb-1">{cfg.title}</div>
-                <div className="text-text text-[10px] leading-snug">{cfg.desc}</div>
-              </GlassCard>
-            ))}
-          </div>
-
-          {/* Run Button */}
-          <GlassCard style={{ padding: "16px" }}>
-            <button
-              onClick={handleRun}
-              disabled={running || completed}
-              className="w-full py-3 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-all"
-              style={{
-                background: completed ? COLORS.success + "18" : running ? COLORS.warn + "18" : COLORS.primary + "18",
-                border: `1px solid ${completed ? COLORS.success : running ? COLORS.warn : COLORS.primary}55`,
-                color: completed ? COLORS.success : running ? COLORS.warn : COLORS.primary,
-              }}
-            >
-              {running && (
-                <div className="spin w-3 h-3 rounded-full border-2 border-t-2" style={{ borderColor: "#F59E0B33", borderTopColor: "#F59E0B" }} />
-              )}
-              {running ? "Running pipeline..." : completed ? "✓ Pipeline Complete" : "Run Agent Pipeline"}
-            </button>
-          </GlassCard>
+        {/* 2. Execution Graph */}
+        <div className="flex flex-col gap-3">
+          <SectionLabel>Agent Execution Graph</SectionLabel>
+          {steps.map((s, i) => (
+            <AgentRow
+              key={s.id}
+              {...s}
+              status={done ? "completed" : running && step === i ? "running" : running && step > i ? "completed" : "pending"}
+            />
+          ))}
         </div>
 
-        {/* Right Column - Mistral 7B Output */}
-        <GlassCard style={{ padding: "22px" }}>
+        {/* 3. Reasoning Output */}
+        <div className="flex flex-col gap-3">
           <SectionLabel color={COLORS.purple}>Mistral 7B — Agent Reasoning Output</SectionLabel>
-          <div
-            className="bg-card2 rounded-lg p-4 min-h-[280px] font-mono text-xs leading-relaxed"
-            style={{
-              border: `1px solid ${COLORS.border}`,
-              color: COLORS.sub,
-            }}
-          >
-            {typedText || (
-              <span className="text-dim italic">
-                {running && currentStep < 3
-                  ? "Waiting for agent execution to complete..."
-                  : "Click 'Run Agent Pipeline' to execute the multi-agent workflow and generate reasoning output."}
-              </span>
-            )}
-            {currentStep === 3 && !completed && (
-              <span
-                className="inline-block w-2 h-4 ml-1"
-                style={{
-                  background: showCursor ? COLORS.primary : "transparent",
-                  animation: showCursor ? "blink 1s step-end infinite" : "none",
-                }}
-              />
-            )}
-          </div>
-          {completed && (
-            <div className="mt-3 p-2.5 rounded-lg" style={{ background: "rgba(2,195,154,0.11)", border: "1px solid rgba(2,195,154,0.2)" }}>
-              <div className="flex justify-between items-center">
-                <div className="text-success text-[10px] font-bold">✓ Reasoning complete</div>
-                <Tag text="Confidence: 84%" color={COLORS.success} />
-              </div>
-              <div className="text-sub text-[10px] mt-1">0 constraint violations · Auditable · Reproducible</div>
+          <GlassCard className="flex-1 p-0 overflow-hidden flex flex-col">
+            <div className="p-3 bg-white/[0.03] border-b border-white/5 flex gap-2">
+              <Tag text="✦ PLAIN-LANGUAGE BRIEFING" color={COLORS.primary} />
+              <Tag text="PRIVATE VPC" color={COLORS.purple} />
             </div>
-          )}
-        </GlassCard>
+            <div className="p-6 flex-1 font-mono text-[13px] leading-relaxed italic text-text/80">
+              {typedText || <span className="text-dim opacity-40">Awaiting execution pipeline...</span>}
+              {!done && running && step === 3 && <span className="animate-pulse text-primary ml-1">|</span>}
+            </div>
+            {done && (
+              <div className="p-4 bg-black/20 border-t border-white/5 flex flex-wrap gap-2">
+                <Tag text="Confidence: 84%" color={COLORS.success} dot />
+                <Tag text="0 Violations" color={COLORS.success} />
+                <Tag text="RAG-Enhanced" color={COLORS.purple} />
+                <Tag text="N-1 Compliant" color={COLORS.primary} />
+              </div>
+            )}
+          </GlassCard>
+        </div>
+      </div>
+
+      {/* 4. Bottom Architecture Panels */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {[
+          { t: "LangGraph Configuration", i: ["Cyclic reasoning graph", "Max 3 revision cycles", "Cross-agent validation"] },
+          { t: "Fallback Chain", i: ["Tier 1: Full AI pipeline", "Tier 2: Template rationale", "Tier 3: Static defaults"] },
+          { t: "Compliance", i: ["Mistral 7B · Private VPC", "Masked data transmission", "Full audit trail logged"] },
+        ].map(card => (
+          <GlassCard key={card.t} className="p-5">
+            <div className="text-primary text-[10px] font-mono font-black uppercase mb-3">{card.t}</div>
+            <ul className="space-y-2">
+              {card.i.map(item => (
+                <li key={item} className="text-[11px] text-sub flex items-center gap-2 border-b border-white/5 pb-2 last:border-0">
+                  <div className="w-1 h-1 rounded-full bg-primary" /> {item}
+                </li>
+              ))}
+            </ul>
+          </GlassCard>
+        ))}
       </div>
     </div>
   );

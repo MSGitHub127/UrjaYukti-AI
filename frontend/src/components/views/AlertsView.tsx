@@ -47,37 +47,48 @@ export default function AlertsView() {
                     border: `1px solid ${col}33`,
                     borderLeft: `3px solid ${col}`,
                     borderRadius: 10,
-                    padding: "16px 18px",
+                    padding: "12px 16px", // Optimized padding to save space
+                    display: "flex",       // Horizontal layout
+                    alignItems: "center",  // Vertical center alignment
+                    justifyContent: "space-between",
+                    gap: "20px"
                   }}
                 >
-                  <div className="flex justify-between items-center mb-1">
-                    <div className="flex items-center gap-1.5">
-                      <div className="pulse-dot w-2 h-2 rounded-full flex-shrink-0" style={{ background: col }} />
+                  {/* LEFT SIDE: Alert Metadata & Message */}
+                  <div className="flex-1 min-w-0">
+                    <div className="flex items-center gap-2 mb-1.5">
+                      <div className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: col }} />
                       <Tag text={alert.severity} color={col} />
-                      <span className="text-sub text-xs">{alert.zone}</span>
-                      <span className="text-dim text-[9px] font-mono ml-auto">
+                      <span className="text-sub text-[11px] font-bold tracking-tight">{alert.zone}</span>
+                      <span className="text-dim text-[9px] font-mono ml-2 opacity-60">
                         {alert.time}
                       </span>
                     </div>
+
+                    {/* Message now has the full remaining width to prevent "confinement" */}
+                    <div className="text-text text-[11px] leading-relaxed max-w-[95%]">
+                      {alert.msg}
+                    </div>
                   </div>
-                  <div className="text-text text-xs leading-relaxed">{alert.msg}</div>
-                  <div className="flex flex-col gap-2 flex-shrink-0">
+
+                  {/* RIGHT SIDE: Compact Action Buttons */}
+                  <div className="flex flex-col gap-1.5 flex-shrink-0 w-28">
                     <button
                       onClick={() => ack(alert.id)}
-                      className="px-3 py-1.5 rounded-lg text-xs font-bold"
+                      className="px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-widest transition-all hover:brightness-125"
                       style={{
-                        background: "rgba(2,195,154,0.18)",
-                        border: "1px solid rgba(2,195,154,0.44)",
+                        background: "rgba(2,195,154,0.12)",
+                        border: "1px solid rgba(2,195,154,0.3)",
                         color: COLORS.success,
                       }}
                     >
                       Acknowledge
                     </button>
                     <button
-                      className="px-3 py-1.5 rounded-lg text-xs font-bold"
+                      className="px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-widest transition-all hover:brightness-125"
                       style={{
-                        background: `${col}18`,
-                        border: `1px solid ${col}44`,
+                        background: `${col}12`,
+                        border: `1px solid ${col}30`,
                         color: col,
                       }}
                     >

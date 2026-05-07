@@ -11,12 +11,12 @@ import AlertsView from "@/components/views/AlertsView";
 import AgentsView from "@/components/views/AgentsView";
 
 export default function Home() {
-  const [currentView, setCurrentView] = useState("heatmap");
+  const [currentView, setCurrentView] = useState("overview");
 
   return (
     <DashboardLayout view={currentView} setView={setCurrentView}>
-      {currentView === "heatmap" && <HeatmapView />}
       {currentView === "overview" && <OverviewView />}
+      {currentView === "heatmap" && <HeatmapView />}
       {currentView === "forecast" && <ForecastView />}
       {currentView === "vpp" && <VPPView />}
       {currentView === "sites" && <SitesView />}

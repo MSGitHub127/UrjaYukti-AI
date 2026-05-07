@@ -152,7 +152,8 @@ export default function OverviewView() {
       </div>
 
       {/* Bottom Row */}
-      <div className="grid grid-cols-1fr 1fr gap-3.5">
+      {/* 1. Changed class to grid-cols-2 for side-by-side on large screens */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
         {/* EV Archetype Demand Breakdown */}
         <GlassCard className="fade-up" style={{ padding: "22px", animationDelay: "200ms" }}>
           <SectionLabel>EV Archetype Demand Breakdown</SectionLabel>
@@ -182,15 +183,15 @@ export default function OverviewView() {
         </GlassCard>
 
         {/* Active Alerts */}
-        <GlassCard className="fade-up" style={{ padding: "22px", animationDelay: "240ms" }}>
+        <GlassCard className="fade-up flex flex-col" style={{ padding: "22px", animationDelay: "240ms" }}>
           <SectionLabel color={COLORS.danger}>Active Alerts</SectionLabel>
-          <div className="flex flex-col gap-2">
+          <div className="flex flex-col gap-2.5 h-full">
             {ALERTS.filter((a) => !a.ack).slice(0, 3).map((alert) => {
               const col = alert.severity === "CRITICAL" ? COLORS.danger : alert.severity === "HIGH" ? COLORS.warn : COLORS.teal;
               return (
                 <div
                   key={alert.id}
-                  className="scale-in"
+                  className="scale-in transition-all hover:brightness-125 cursor-pointer"
                   style={{
                     background: `${col}0A`,
                     border: `1px solid ${col}33`,
@@ -203,11 +204,11 @@ export default function OverviewView() {
                     <div className="flex items-center gap-1.5">
                       <div className="pulse-dot w-1.5 h-1.5 rounded-full flex-shrink-0" style={{ background: col }} />
                       <Tag text={alert.severity} color={col} />
-                      <span className="text-sub text-xs">{alert.zone}</span>
+                      <span className="text-sub text-xs font-bold">{alert.zone}</span>
                     </div>
                     <span className="text-dim text-[9px] font-mono">{alert.time}</span>
                   </div>
-                  <div className="text-text text-xs leading-relaxed">{alert.msg}</div>
+                  <div className="text-text text-[11px] leading-snug">{alert.msg}</div>
                 </div>
               );
             })}
