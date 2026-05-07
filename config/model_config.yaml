@@ -1,0 +1,54 @@
+# Model Configuration
+
+# Temporal Fusion Transformer (TFT)
+tft:
+  horizon_hours: 72
+  input_window_hours: 168  # 7 days
+  batch_size: 64
+  learning_rate: 0.001
+  epochs: 100
+  early_stopping_patience: 10
+  hidden_size: 64
+  num_attention_heads: 4
+  dropout: 0.1
+
+# LSTM Anomaly Detector
+lstm:
+  sequence_length: 24  # hours
+  hidden_size: 32
+  num_layers: 2
+  threshold_sigma: 2.0  # 2-sigma for anomaly detection
+  batch_size: 32
+  learning_rate: 0.01
+  epochs: 50
+
+# User Behavior Model
+behavior:
+  compliance_window_days: 30
+  min_compliance_samples: 100
+  incentive_sensitivity: 0.5  # ₹/kWh impact factor
+  time_preference_weight: 0.3
+  baseline_compliance_rate: 0.4  # 40% without incentives
+
+# Drift Detection
+drift:
+  mape_threshold: 0.15  # 15% MAPE triggers alert
+  anomaly_rate_threshold: 0.05  # 5% anomaly rate triggers alert
+  data_drift_threshold: 0.1  # 10% distribution shift
+  retraining_cooldown_hours: 24  # Minimum time between retraining
+
+# Cross-Zone Coordination
+cross_zone:
+  max_transfer_distance_km: 10
+  transfer_efficiency: 0.9  # 10% loss during transfer
+  min_headroom_for_transfer: 0.2  # 20% headroom required
+  spill_over_threshold: 0.85  # 85% load triggers spill-over
+
+# ROI Calculation
+roi:
+  capex_per_kw: 15000  # ₹/kW for charging station
+  opex_annual_percent: 0.05  # 5% of CAPEX annually
+  electricity_cost_per_kwh: 6  # ₹/kWh
+  charging_margin_per_kwh: 4  # ₹/kWh profit margin
+  target_payback_years: 3
+  discount_rate: 0.1  # 10% for NPV calculation

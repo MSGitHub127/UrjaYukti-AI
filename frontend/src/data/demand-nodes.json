@@ -1,0 +1,464 @@
+{
+    "features": [
+        {
+            "geometry": {
+                "coordinates": [
+                    77.748,
+                    12.965
+                ],
+                "type": "Point"
+            },
+            "id": "whitefield-node-1",
+            "properties": {
+                "load": 95,
+                "ms": 0,
+                "type": "peak",
+                "zoneId": "whitefield"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.755,
+                    12.97
+                ],
+                "type": "Point"
+            },
+            "id": "whitefield-node-2",
+            "properties": {
+                "load": 88,
+                "ms": 380,
+                "type": "peak",
+                "zoneId": "whitefield"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.76,
+                    12.975
+                ],
+                "type": "Point"
+            },
+            "id": "whitefield-node-3",
+            "properties": {
+                "load": 76,
+                "ms": 180,
+                "type": "high",
+                "zoneId": "whitefield"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.75,
+                    12.98
+                ],
+                "type": "Point"
+            },
+            "id": "whitefield-node-4",
+            "properties": {
+                "load": 82,
+                "ms": 560,
+                "type": "peak",
+                "zoneId": "whitefield"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.742,
+                    12.975
+                ],
+                "type": "Point"
+            },
+            "id": "whitefield-node-5",
+            "properties": {
+                "load": 60,
+                "ms": 760,
+                "type": "opt",
+                "zoneId": "whitefield"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.748,
+                    12.972
+                ],
+                "type": "Point"
+            },
+            "id": "whitefield-node-6",
+            "properties": {
+                "load": 90,
+                "ms": 140,
+                "type": "peak",
+                "zoneId": "whitefield"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.635,
+                    12.905
+                ],
+                "type": "Point"
+            },
+            "id": "hsr-node-1",
+            "properties": {
+                "load": 78,
+                "ms": 0,
+                "type": "peak",
+                "zoneId": "hsr"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.642,
+                    12.9
+                ],
+                "type": "Point"
+            },
+            "id": "hsr-node-2",
+            "properties": {
+                "load": 70,
+                "ms": 300,
+                "type": "high",
+                "zoneId": "hsr"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.648,
+                    12.915
+                ],
+                "type": "Point"
+            },
+            "id": "hsr-node-3",
+            "properties": {
+                "load": 62,
+                "ms": 500,
+                "type": "high",
+                "zoneId": "hsr"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.645,
+                    12.925
+                ],
+                "type": "Point"
+            },
+            "id": "hsr-node-4",
+            "properties": {
+                "load": 52,
+                "ms": 700,
+                "type": "opt",
+                "zoneId": "hsr"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.638,
+                    12.92
+                ],
+                "type": "Point"
+            },
+            "id": "hsr-node-5",
+            "properties": {
+                "load": 58,
+                "ms": 200,
+                "type": "opt",
+                "zoneId": "hsr"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.635,
+                    12.965
+                ],
+                "type": "Point"
+            },
+            "id": "indiranagar-node-1",
+            "properties": {
+                "load": 71,
+                "ms": 0,
+                "type": "high",
+                "zoneId": "indiranagar"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.642,
+                    12.96
+                ],
+                "type": "Point"
+            },
+            "id": "indiranagar-node-2",
+            "properties": {
+                "load": 62,
+                "ms": 400,
+                "type": "high",
+                "zoneId": "indiranagar"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.648,
+                    12.975
+                ],
+                "type": "Point"
+            },
+            "id": "indiranagar-node-3",
+            "properties": {
+                "load": 50,
+                "ms": 200,
+                "type": "opt",
+                "zoneId": "indiranagar"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.64,
+                    12.98
+                ],
+                "type": "Point"
+            },
+            "id": "indiranagar-node-4",
+            "properties": {
+                "load": 55,
+                "ms": 600,
+                "type": "opt",
+                "zoneId": "indiranagar"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.615,
+                    12.925
+                ],
+                "type": "Point"
+            },
+            "id": "koramangala-node-1",
+            "properties": {
+                "load": 65,
+                "ms": 0,
+                "type": "high",
+                "zoneId": "koramangala"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.622,
+                    12.92
+                ],
+                "type": "Point"
+            },
+            "id": "koramangala-node-2",
+            "properties": {
+                "load": 55,
+                "ms": 500,
+                "type": "opt",
+                "zoneId": "koramangala"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.628,
+                    12.935
+                ],
+                "type": "Point"
+            },
+            "id": "koramangala-node-3",
+            "properties": {
+                "load": 48,
+                "ms": 300,
+                "type": "opt",
+                "zoneId": "koramangala"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.618,
+                    12.94
+                ],
+                "type": "Point"
+            },
+            "id": "koramangala-node-4",
+            "properties": {
+                "load": 44,
+                "ms": 700,
+                "type": "opt",
+                "zoneId": "koramangala"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.665,
+                    12.835
+                ],
+                "type": "Point"
+            },
+            "id": "electronic-city-node-1",
+            "properties": {
+                "load": 58,
+                "ms": 0,
+                "type": "opt",
+                "zoneId": "electronic-city"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.672,
+                    12.83
+                ],
+                "type": "Point"
+            },
+            "id": "electronic-city-node-2",
+            "properties": {
+                "load": 48,
+                "ms": 400,
+                "type": "opt",
+                "zoneId": "electronic-city"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.678,
+                    12.82
+                ],
+                "type": "Point"
+            },
+            "id": "electronic-city-node-3",
+            "properties": {
+                "load": 42,
+                "ms": 200,
+                "type": "opt",
+                "zoneId": "electronic-city"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.67,
+                    12.845
+                ],
+                "type": "Point"
+            },
+            "id": "electronic-city-node-4",
+            "properties": {
+                "load": 35,
+                "ms": 600,
+                "type": "opt",
+                "zoneId": "electronic-city"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.695,
+                    12.955
+                ],
+                "type": "Point"
+            },
+            "id": "marathahalli-node-1",
+            "properties": {
+                "load": 52,
+                "ms": 0,
+                "type": "opt",
+                "zoneId": "marathahalli"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.702,
+                    12.95
+                ],
+                "type": "Point"
+            },
+            "id": "marathahalli-node-2",
+            "properties": {
+                "load": 44,
+                "ms": 300,
+                "type": "opt",
+                "zoneId": "marathahalli"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.705,
+                    12.96
+                ],
+                "type": "Point"
+            },
+            "id": "marathahalli-node-3",
+            "properties": {
+                "load": 38,
+                "ms": 500,
+                "type": "opt",
+                "zoneId": "marathahalli"
+            },
+            "type": "Feature"
+        },
+        {
+            "geometry": {
+                "coordinates": [
+                    77.698,
+                    12.965
+                ],
+                "type": "Point"
+            },
+            "id": "marathahalli-node-4",
+            "properties": {
+                "load": 34,
+                "ms": 200,
+                "type": "opt",
+                "zoneId": "marathahalli"
+            },
+            "type": "Feature"
+        }
+    ],
+    "type": "FeatureCollection"
+}

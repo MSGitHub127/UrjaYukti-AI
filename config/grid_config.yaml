@@ -1,0 +1,95 @@
+# Grid Configuration
+
+# Transformer Constraints
+transformer:
+  n_minus_1: true  # N-1 contingency standard
+  max_headroom_percent: 0.3  # 30% headroom required
+  critical_threshold: 0.85  # 85% load = CRITICAL
+  caution_threshold: 0.7  # 70% load = CAUTION
+  safe_threshold: 0.5  # 50% load = SAFE
+
+# Zone Definitions
+zones:
+  - id: Z01
+    name: Whitefield
+    transformer_capacity_mw: 50
+    feeder_count: 12
+    coordinates: [12.9698, 77.7499]
+  - id: Z02
+    name: HSR Layout
+    transformer_capacity_mw: 40
+    feeder_count: 8
+    coordinates: [12.9138, 77.6374]
+  - id: Z03
+    name: Indiranagar
+    transformer_capacity_mw: 35
+    feeder_count: 6
+    coordinates: [12.9740, 77.6408]
+  - id: Z04
+    name: Koramangala
+    transformer_capacity_mw: 30
+    feeder_count: 5
+    coordinates: [12.9352, 77.6245]
+  - id: Z05
+    name: Electronic City
+    transformer_capacity_mw: 45
+    feeder_count: 10
+    coordinates: [12.8356, 77.6666]
+  - id: Z06
+    name: Marathahalli
+    transformer_capacity_mw: 38
+    feeder_count: 7
+    coordinates: [12.9556, 77.7008]
+
+# Zone Connectivity (for cross-zone coordination)
+connectivity:
+  - from: Z01
+    to: Z05
+    distance_km: 8.5
+    transfer_capacity_mw: 5
+  - from: Z01
+    to: Z06
+    distance_km: 5.2
+    transfer_capacity_mw: 8
+  - from: Z02
+    to: Z03
+    distance_km: 4.8
+    transfer_capacity_mw: 6
+  - from: Z02
+    to: Z04
+    distance_km: 6.1
+    transfer_capacity_mw: 4
+  - from: Z03
+    to: Z04
+    distance_km: 3.2
+    transfer_capacity_mw: 7
+  - from: Z05
+    to: Z06
+    distance_km: 7.3
+    transfer_capacity_mw: 5
+
+# Peak Hours
+peak_hours:
+  morning: [7, 8, 9, 10]
+  evening: [18, 19, 20, 21]
+
+# EV Archetypes
+archetypes:
+  - id: A01
+    name: Commuter
+    peak_hours: [18, 19, 20]
+    avg_session_duration_hours: 2
+    avg_energy_kwh: 25
+    flexibility_percent: 20
+  - id: A02
+    name: Fleet
+    peak_hours: [14, 15, 16]
+    avg_session_duration_hours: 4
+    avg_energy_kwh: 50
+    flexibility_percent: 60
+  - id: A03
+    name: Opportunity
+    peak_hours: [10, 11, 12, 13, 14, 15, 16, 17]
+    avg_session_duration_hours: 1
+    avg_energy_kwh: 15
+    flexibility_percent: 80

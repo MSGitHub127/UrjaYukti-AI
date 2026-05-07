@@ -1,0 +1,66 @@
+# Incentive Configuration
+
+# Time-of-Use (TOU) Rates
+tou_rates:
+  peak_hour_cost_per_kwh: 8  # ₹/kWh during peak
+  off_peak_cost_per_kwh: 4  # ₹/kWh during off-peak
+  super_off_peak_cost_per_kwh: 2  # ₹/kWh during super off-peak (midnight-4am)
+
+# Incentive Programs
+incentives:
+  - id: I01
+    name: Off-Peak Shift Rebate
+    type: per_kwh
+    amount: 2  # ₹/kWh rebate for shifting to off-peak
+    eligibility:
+      - shift_hours: 2  # Must shift at least 2 hours
+      - from_peak: true  # Must shift from peak hours
+    compliance_boost: 0.25  # 25% increase in compliance probability
+
+  - id: I02
+    name: Smart Charging Bonus
+    type: flat
+    amount: 50  # ₹ flat bonus for enabling smart charging
+    eligibility:
+      - opt_in: true
+    compliance_boost: 0.15  # 15% increase in compliance probability
+
+  - id: I03
+    name: Fleet Partnership
+    type: volume
+    amount: 1.5  # ₹/kWh for fleet operators
+    eligibility:
+      - fleet_size_min: 10
+      - contract_months: 12
+    compliance_boost: 0.40  # 40% increase in compliance probability
+
+# Compliance Probability Model
+compliance_model:
+  base_rate: 0.4  # 40% baseline compliance
+  incentive_sensitivity: 0.3  # Each ₹/kWh adds 30% probability
+  time_preference_penalty: 0.1  # Per hour away from preferred time
+  max_probability: 0.8  # Cap at 80%
+  min_probability: 0.1  # Floor at 10%
+
+# Notification Channels
+notifications:
+  - channel: SMS
+    cost_per_message: 0.5  # ₹
+    delivery_rate: 0.95
+    response_rate: 0.3
+
+  - channel: App Push
+    cost_per_message: 0.05  # ₹
+    delivery_rate: 0.98
+    response_rate: 0.25
+
+  - channel: Email
+    cost_per_message: 0.1  # ₹
+    delivery_rate: 0.9
+    response_rate: 0.15
+
+# Feedback Collection
+feedback:
+  collection_window_hours: 24  # Collect feedback within 24 hours
+  min_samples_for_retraining: 100
+  feedback_weight_decay: 0.9  # Decay factor for older feedback

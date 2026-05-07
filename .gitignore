@@ -1,0 +1,297 @@
+# =============================================================================
+# UrjaYukti AI — .gitignore
+# Place this file at the root of the project: UrjaYukti AI/.gitignore
+# =============================================================================
+
+
+# =============================================================================
+# FRONTEND — Next.js / Node.js
+# =============================================================================
+
+# Dependencies — NEVER commit these (thousands of files)
+frontend/node_modules/
+node_modules/
+
+# Next.js build output
+frontend/.next/
+frontend/out/
+
+# Next.js cache
+frontend/.next/cache/
+
+# Production build
+frontend/build/
+
+# Environment variables — NEVER commit, contains secrets
+frontend/.env
+frontend/.env.local
+frontend/.env.development.local
+frontend/.env.test.local
+frontend/.env.production.local
+frontend/.env.production
+
+# next-env.d.ts is auto-generated
+frontend/next-env.d.ts
+
+# TypeScript build info
+frontend/tsconfig.tsbuildinfo
+frontend/*.tsbuildinfo
+
+# Package manager locks — keep ONE, ignore the others
+# If you use npm, keep package-lock.json and ignore yarn.lock
+frontend/yarn.lock
+frontend/.yarn/
+
+# Parcel cache
+frontend/.cache/
+
+# Turbopack
+frontend/.turbo/
+
+
+# =============================================================================
+# BACKEND — Python / FastAPI
+# =============================================================================
+
+# Virtual environment — NEVER commit (gigabytes)
+backend/venv/
+backend/.venv/
+backend/env/
+backend/.env/
+venv/
+.venv/
+
+# Python bytecode cache
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+*.pyo
+*.pyd
+
+# Python egg / distribution
+*.egg
+*.egg-info/
+dist/
+build/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
+
+# pytest cache
+backend/.pytest_cache/
+.pytest_cache/
+.cache/
+
+# Coverage reports
+htmlcov/
+.coverage
+.coverage.*
+coverage.xml
+*.cover
+
+# mypy type checker
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Ruff / Black / isort cache
+.ruff_cache/
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# Environment variable files for backend
+backend/.env
+backend/.env.local
+backend/.env.production
+
+
+# =============================================================================
+# ML MODELS & DATA — Large binary files
+# =============================================================================
+
+# Trained model weights (can be hundreds of MB each)
+data/models/*.pt
+data/models/*.pth
+data/models/*.pkl
+data/models/*.joblib
+data/models/*.h5
+data/models/*.ckpt
+data/models/*.bin
+
+# Keep the models/ directory itself (with a .gitkeep)
+!data/models/.gitkeep
+
+# Raw OSM data (large, re-downloadable)
+data/osm/*.pbf
+data/osm/*.osm
+
+# Large processed datasets
+data/processed/*.parquet
+data/processed/*.csv
+data/synthetic/*.parquet
+data/synthetic/*.csv
+
+# Keep directory structure with .gitkeep files
+!data/osm/.gitkeep
+!data/processed/.gitkeep
+!data/synthetic/.gitkeep
+!data/feedback/.gitkeep
+
+# Feedback / user data — may contain PII
+data/feedback/
+
+
+# =============================================================================
+# MAPBOX & GEOJSON — Intermediate pipeline files only
+# (keep the final enriched file, ignore the raw/intermediate ones)
+# =============================================================================
+
+# Raw extract from osmnx (re-generatable)
+frontend/public/urjayukti_zones_raw.geojson
+
+# Mapshaper intermediate output (re-generatable)
+frontend/public/urjayukti_zones.geojson
+
+# KEEP the final enriched file — this IS committed
+# frontend/public/urjayukti_zones_enriched.geojson  ← DO NOT ignore this
+
+
+# =============================================================================
+# SECRETS & CREDENTIALS — CRITICAL: never commit these
+# =============================================================================
+
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.cert
+*.p12
+*.pfx
+secrets/
+credentials/
+service-account*.json
+
+
+# =============================================================================
+# DATABASES & LOGS
+# =============================================================================
+
+# SQLite (local dev databases)
+*.sqlite
+*.sqlite3
+*.db
+
+# PostgreSQL dumps
+*.sql.gz
+*.dump
+
+# Log files
+*.log
+logs/
+backend/logs/
+frontend/logs/
+
+# TimescaleDB / PostgreSQL local data directory
+pgdata/
+
+
+# =============================================================================
+# DOCKER
+# =============================================================================
+
+# Docker volumes data
+docker/data/
+.docker/
+
+
+# =============================================================================
+# OPERATING SYSTEM FILES
+# =============================================================================
+
+# macOS
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+.AppleDouble
+.LSOverride
+
+# Windows
+Thumbs.db
+Thumbs.db:encryptedDatabase
+ehthumbs.db
+ehthumbs_vista.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# Windows shortcut files
+*.lnk
+
+# Linux
+*~
+
+
+# =============================================================================
+# EDITORS & IDEs
+# =============================================================================
+
+# VS Code
+.vscode/
+!.vscode/extensions.json
+!.vscode/settings.json.example
+
+# JetBrains (PyCharm, WebStorm, etc.)
+.idea/
+*.iml
+*.iws
+*.ipr
+
+# Vim / Neovim
+*.swp
+*.swo
+*~
+.netrwhist
+
+# Emacs
+\#*\#
+.\#*
+
+
+# =============================================================================
+# SCRIPTS — keep scripts but ignore their outputs
+# =============================================================================
+
+# osmnx raw output (re-runnable)
+scripts/*.geojson
+
+# Python script caches
+scripts/__pycache__/
+
+
+# =============================================================================
+# MISCELLANEOUS
+# =============================================================================
+
+# Compressed archives
+*.zip
+*.tar.gz
+*.rar
+*.7z
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.orig
+
+# OS-generated index files
+.directory

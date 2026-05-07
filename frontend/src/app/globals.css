@@ -1,0 +1,545 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Rajdhani:wght@500;600;700&family=JetBrains+Mono:wght@400;500;700&display=swap');
+@import "mapbox-gl/dist/mapbox-gl.css";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+
+  /* ─── Base Styles ─────────────────────────────────────────────────────────── */
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: #0B0D14;
+    color: #F0F6FC;
+    font-family: 'Inter', 'DM Sans', system-ui, sans-serif;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  /* ─── Scrollbar Styles ────────────────────────────────────────────────────── */
+  ::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 99px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(2, 195, 154, 0.4);
+  }
+
+  /* ─── Button Base Styles ───────────────────────────────────────────────────── */
+  button {
+    cursor: pointer;
+    font-family: 'Inter', 'DM Sans', system-ui, sans-serif;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  button:active {
+    transform: scale(0.97);
+  }
+
+  /* ─── Input Range Styles ──────────────────────────────────────────────────── */
+  input[type="range"] {
+    -webkit-appearance: none;
+    width: 100%;
+    height: 5px;
+    border-radius: 99px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: #02C39A;
+    box-shadow: 0 0 8px rgba(2, 195, 154, 0.6);
+    border: 2px solid #0B0D14;
+    cursor: pointer;
+  }
+
+  /* ─── Shadcn/ui Variables (preserved) ───────────────────────────────────────── */
+  :root,
+  .dark {
+    --background: 215 55% 4%;
+    --foreground: 194 50% 89%;
+    --card: 203 74% 15%;
+    --card-foreground: 194 50% 89%;
+    --popover: 203 74% 15%;
+    --popover-foreground: 194 50% 89%;
+    --primary: 167 98% 39%;
+    --primary-foreground: 204 91% 9%;
+    --secondary: 197 68% 34%;
+    --secondary-foreground: 194 50% 89%;
+    --muted: 197 41% 64%;
+    --muted-foreground: 194 50% 89%;
+    --accent: 197 68% 34%;
+    --accent-foreground: 194 50% 89%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 194 50% 89%;
+    --border: 197 68% 34%;
+    --input: 203 74% 15%;
+    --ring: 167 98% 39%;
+    --radius: 0.5rem;
+    --navy: 197 50% 26%;
+    --teal: 197 68% 34%;
+    --mint: 167 98% 39%;
+    --warn: 36 100% 50%;
+    --purple: 258 70% 67%;
+  }
+}
+
+@layer components {
+
+  /* ─── Glass Card ─────────────────────────────────────────────────────────── */
+  .glass-card {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.07);
+    border-radius: 14px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  }
+
+  .glass-card-glow {
+    background: rgba(255, 255, 255, 0.04);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(2, 195, 154, 0.44);
+    border-radius: 14px;
+    box-shadow: 0 0 30px rgba(2, 195, 154, 0.18), 0 8px 32px rgba(0, 0, 0, 0.5), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  }
+
+  /* ─── Tag ────────────────────────────────────────────────────────────────── */
+  .tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 2px 9px;
+    border-radius: 99px;
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  /* ─── Navigation Item ──────────────────────────────────────────────────────── */
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 9px 14px;
+    border-radius: 9px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    border: 1px solid transparent;
+    font-size: 12px;
+    font-weight: 500;
+    color: #8B949E;
+    width: 100%;
+    background: transparent;
+    text-align: left;
+  }
+
+  .nav-item:hover {
+    background: rgba(255, 255, 255, 0.04);
+    color: #F0F6FC;
+  }
+
+  .nav-item.active {
+    background: rgba(2, 195, 154, 0.1);
+    color: #02C39A;
+    border-color: rgba(2, 195, 154, 0.25);
+  }
+
+  .nav-item.active .nav-icon {
+    color: #02C39A;
+  }
+
+  /* ─── Card Hover ──────────────────────────────────────────────────────────── */
+  .card-hover {
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .card-hover:hover {
+    border-color: rgba(2, 195, 154, 0.3) !important;
+    box-shadow: 0 0 20px rgba(2, 195, 154, 0.08), 0 8px 24px rgba(0, 0, 0, 0.4) !important;
+    transform: translateY(-1px);
+  }
+
+  /* ─── Skeleton Loader ──────────────────────────────────────────────────────── */
+  .skel {
+    background: linear-gradient(90deg, #141B2D 25%, #1A2340 50%, #141B2D 75%);
+    background-size: 600px 100%;
+    animation: shimmer 1.6s ease-in-out infinite;
+    border-radius: 6px;
+  }
+
+  /* ─── Section Label ────────────────────────────────────────────────────────── */
+  .section-label {
+    color: #02C39A;
+    font-size: 9px;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 800;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::before {
+    content: '';
+    width: 14px;
+    height: 1px;
+    background: #02C39A;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, rgba(2, 195, 154, 0.27), transparent);
+  }
+
+  /* ─── Divider ─────────────────────────────────────────────────────────────── */
+  .divider {
+    height: 1px;
+    background: rgba(255, 255, 255, 0.07);
+    margin: 20px 0;
+  }
+
+  /* ─── Mono Text ───────────────────────────────────────────────────────────── */
+  .mono {
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 700;
+  }
+
+  /* ─── Display Text ────────────────────────────────────────────────────────── */
+  .display-text {
+    font-family: 'Rajdhani', 'Syne', system-ui, sans-serif;
+  }
+
+  /* ─── Scrollbar Thin ───────────────────────────────────────────────────────── */
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: #141B2D;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: #0891B2;
+    border-radius: 99px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(8, 145, 178, 0.8);
+  }
+}
+
+@layer utilities {
+
+  /* ─── Text Utilities ───────────────────────────────────────────────────────── */
+  .text-tight {
+    letter-spacing: -0.025em;
+  }
+
+  .text-tighter {
+    letter-spacing: -0.05em;
+  }
+
+  /* ─── Animation Utilities ──────────────────────────────────────────────────── */
+  .fade-up {
+    animation: fadeUp 0.45s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .scale-in {
+    animation: scaleIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .pulse-dot {
+    animation: pulse 2s ease-in-out infinite;
+  }
+
+  .agent-glow {
+    animation: glow 2s ease-in-out infinite;
+  }
+
+  .spin {
+    animation: spin 1s linear infinite;
+  }
+
+  .float {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  .float-anim {
+    animation: float 4s ease-in-out infinite;
+  }
+
+  /* ─── Logo Animation Classes ───────────────────────────────────────────────── */
+  .logo-glow-anim {
+    animation: logoGlow 3s ease-in-out infinite;
+  }
+
+  .logo-pulse-anim {
+    animation: logoPulse 2.5s ease-in-out infinite;
+  }
+
+  .logo-dash-anim {
+    animation: logoDash 1.4s linear infinite;
+  }
+
+  /* ─── ZoneMap Animation Classes ─────────────────────────────────────────────── */
+  .draw-perim {
+    stroke-dasharray: 3200;
+    animation: drawPerim 1.4s cubic-bezier(0.4, 0, 0.2, 1) forwards, perimGlow 2.8s ease-in-out 1.4s infinite;
+  }
+
+  .ripple {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: rippleOut 2s ease-out infinite;
+  }
+
+  .dot-beat {
+    transform-box: fill-box;
+    transform-origin: center;
+    animation: innerBeat 1.6s ease-in-out infinite;
+  }
+
+  .flow-dash {
+    stroke-dasharray: 8 6;
+    animation: flowMove 1.2s linear infinite;
+  }
+
+  .slide-inR {
+    animation: slideInR 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  .live-blink {
+    animation: liveBlink 2s ease-in-out infinite;
+  }
+
+  .animate-ticker {
+    animation: ticker 24s linear infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  /* ─── Additional Keyframes ───────────────────────────────────────────────────── */
+  @keyframes fadeUp {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.4;
+    }
+  }
+
+  @keyframes spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes glow {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(2, 195, 154, 0);
+    }
+    50% {
+      box-shadow: 0 0 0 6px rgba(2, 195, 154, 0.12);
+    }
+  }
+
+  @keyframes ticker {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+
+  @keyframes blink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes shimmer {
+    0% {
+      background-position: -600px 0;
+    }
+    100% {
+      background-position: 600px 0;
+    }
+  }
+
+  @keyframes scaleIn {
+    from {
+      opacity: 0;
+      transform: scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: scale(1);
+    }
+  }
+
+  @keyframes liveBlink {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+
+  @keyframes logoGlow {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 2px rgba(2, 195, 154, 0.3));
+    }
+    50% {
+      filter: drop-shadow(0 0 8px rgba(2, 195, 154, 0.6));
+    }
+  }
+
+  @keyframes logoPulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.6;
+    }
+  }
+
+  @keyframes logoDash {
+    0% {
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dashoffset: -20;
+    }
+  }
+
+  @keyframes drawPerim {
+    from {
+      stroke-dashoffset: 3200;
+    }
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  @keyframes perimGlow {
+    0%,
+    100% {
+      filter: drop-shadow(0 0 2px rgba(2, 195, 154, 0.4));
+    }
+    50% {
+      filter: drop-shadow(0 0 6px rgba(2, 195, 154, 0.8));
+    }
+  }
+
+  @keyframes rippleOut {
+    0% {
+      transform: scale(0);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(2);
+      opacity: 0;
+    }
+  }
+
+  @keyframes innerBeat {
+    0%,
+    100% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+  }
+
+  @keyframes flowMove {
+    0% {
+      stroke-dashoffset: 0;
+    }
+    100% {
+      stroke-dashoffset: -14;
+    }
+  }
+
+  @keyframes slideInR {
+    from {
+      transform: translateX(20px);
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+  }
+}

@@ -1,0 +1,61 @@
+# Docker Compose for Mistral 7B Private VPC Deployment
+# Production-grade orchestration for explainability layer
+
+version: '3.8'
+
+services:
+  mistral-7b:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: urjayukti-mistral-7b
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./data:/app/data
+      - ./config:/app/config
+      - ./logs:/app/logs
+    environment:
+      - MODEL_NAME=mistralai/Mistral-7B-Instruct-v0.2
+      - DEVICE=cuda
+      - MAX_TOKENS=512
+      - TEMPERATURE=0.7
+      - TOP_P=0.9
+      - LOG_LEVEL=INFO
+      - CHROMA_PERSIST_DIR=/app/data/chroma_db
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    networks:
+      - urjayukti-network
+
+  chromadb:
+    image: chromadb/chroma:latest
+    container_name: urjayukti-chromadb
+    ports:
+      - "8001:8000"
+    volumes:
+      - ./data/chroma_db:/chroma/chroma
+    environment:
+      - ANONYMIZED_TELEMETRY=False
+    restart: unless-stopped
+    networks:
+      - urjayukti-network
+
+networks:
+  urjayukti-network:
+    driver: bridge
+
+volumes:
+  chroma-data:
