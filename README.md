@@ -17,7 +17,7 @@
 
 ---
 
-![Status](https://img.shields.io/badge/Status-Production%20Ready-02C39A?style=for-the-badge&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Prototype%20Stage-02C39A?style=for-the-badge&logoColor=white)
 ![Track](https://img.shields.io/badge/Track-PAN%20IIT%20AI%20for%20Bharat-0891B2?style=for-the-badge)
 ![Theme](https://img.shields.io/badge/Theme-9%20%7C%20Smart%20Grid-A78BFA?style=for-the-badge)
 ![Constraints](https://img.shields.io/badge/Constraint%20Violations-0-02C39A?style=for-the-badge)
