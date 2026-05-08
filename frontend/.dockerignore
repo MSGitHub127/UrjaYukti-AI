@@ -1,0 +1,12 @@
+node_modules
+.next
+.git
+.gitignore
+*.md
+*.log
+.env
+.env.*
+!.env.example
+.vscode
+.DS_Store
+Thumbs.db

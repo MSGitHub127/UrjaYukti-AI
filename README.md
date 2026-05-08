@@ -61,7 +61,7 @@ BESCOM Grid Telemetry (masked)
 ┌─────────────────────────────────────────────────────────┐
 │                  UrjaYukti AI Pipeline                  │
 │                                                         │
-│  TFT Forecast → VPP Scheduler → Site Ranker → Mistral  │
+│  TFT Forecast → VPP Scheduler → Site Ranker → Mistral   │
 │       ↓               ↓              ↓           ↓      │
 │  72-hr demand   Load shift      MCDA score   Plain-lang │
 │  prediction     schedule        + ROI calc   rationale  │
@@ -254,15 +254,15 @@ Tier 4: Static safe defaults     → If all else fails
 │   /agents/rationale                                            │
 └──────┬──────────────┬──────────────┬────────────────┬──────────┘
        │              │              │                │
-┌──────▼──────┐ ┌─────▼──────┐ ┌────▼─────┐ ┌───────▼──────────┐
-│   ML Models  │ │Optimisation│ │ Database │ │   LLM Layer     │
-│             │ │            │ │          │ │                  │
-│ TFT Forecast│ │OR-Tools LP │ │PostgreSQL│ │Mistral 7B        │
-│ LSTM Anomaly│ │HDBSCAN     │ │+PostGIS  │ │Private VPC       │
-│ Behavior    │ │MCDA Engine │ │TimescaleDB│ │ChromaDB RAG     │
-│ Model       │ │CrossZone   │ │          │ │No hosted LLM on  │
-│             │ │Coordinator │ │          │ │sensitive data    │
-└─────────────┘ └────────────┘ └──────────┘ └──────────────────┘
+┌──────▼──────┐ ┌─────▼──────┐ ┌────▼───────┐ ┌───────▼──────────┐
+│   ML Models │ │Optimisation│ │ Database   │ │   LLM Layer      │
+│             │ │            │ │            │ │                  │
+│ TFT Forecast│ │OR-Tools LP │ │PostgreSQL  │ │Mistral 7B        │
+│ LSTM Anomaly│ │HDBSCAN     │ │+PostGIS    │ │Private VPC       │
+│ Behavior    │ │MCDA Engine │ │TimescaleDB │ │ChromaDB RAG      │
+│ Model       │ │CrossZone   │ │            │ │No hosted LLM on  │
+│             │ │Coordinator │ │            │ │sensitive data    │
+└─────────────┘ └────────────┘ └────────────┘ └──────────────────┘
 ```
 
 ---
